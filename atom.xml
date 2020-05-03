@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Fighting_Peter</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="/"/>
+  <updated>2020-05-02T10:22:37.935Z</updated>
+  <id>/</id>
+  
+  <author>
+    <name>uptracer</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>我是个好人</title>
+    <link href="/2020/05/01/MATLAB%E7%81%B0%E8%89%B2%E9%A2%84%E6%B5%8B/"/>
+    <id>/2020/05/01/MATLAB灰色预测/</id>
+    <published>2020-04-30T16:11:29.000Z</published>
+    <updated>2020-05-02T10:22:37.935Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;一-灰色预测&quot;&gt;&lt;a href=&quot;#一-灰色预测&quot; class=&quot;headerlink&quot; title=&quot;一.灰色预测&quot;&gt;&lt;/a&gt;一.灰色预测&lt;/h2&gt;&lt;h3 id=&quot;1-灰色系统下的灰色预测&quot;&gt;&lt;a href=&quot;#1-灰色系统下的灰色预测&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>pages</title>
+    <link href="/2020/05/01/pages/"/>
+    <id>/2020/05/01/pages/</id>
+    <published>2020-04-30T16:11:18.000Z</published>
+    <updated>2020-04-30T16:11:18.059Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo-Theme-Sakura</title>
+    <link href="/2018/12/12/Hexo-Theme-Sakura/"/>
+    <id>/2018/12/12/Hexo-Theme-Sakura/</id>
+    <published>2018-12-12T14:16:01.000Z</published>
+    <updated>2020-03-16T10:41:30.000Z</updated>
+    
+    <summary type="html">
+    
+      hexo-sakura主题使用教程
+    
+    </summary>
+    
+      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="web" scheme="/tags/web/"/>
+    
+      <category term="悦读" scheme="/tags/%E6%82%A6%E8%AF%BB/"/>
+    
+  </entry>
+  
+</feed>
