@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">树状数组 | Fighting_Peter</title>
+  <title itemprop="name">奇怪的建图方式 | Fighting_Peter</title>
   
     <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/images/favicon.ico">
   
@@ -286,11 +286,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1589200372728&amp;di=ada52f37a99d9e8bc7df996b9c4f969e&amp;imgtype=0&amp;src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1209%2F07%2Fc0%2F13694092_1346987078266.jpg);" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1589200372728&amp;di=ada52f37a99d9e8bc7df996b9c4f969e&amp;imgtype=0&amp;src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1209%2F07%2Fc0%2F13694092_1346987078266.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(http://pic1.win4000.com/wallpaper/2/583556fda1076.jpg);" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="http://pic1.win4000.com/wallpaper/2/583556fda1076.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      树状数组</h1>
+      奇怪的建图方式</h1>
       <p class="entry-census">
         <span>
           <a href="">
@@ -302,7 +302,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-5-6<span class="bull">
+        2020-5-11<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -316,232 +316,201 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h2 id="树状数组"><a href="#树状数组" class="headerlink" title="树状数组"></a>树状数组</h2><h4 id="聊聊前缀和"><a href="#聊聊前缀和" class="headerlink" title="聊聊前缀和"></a>聊聊前缀和</h4><p>比如数组</p>
-<pre><code class="lang-cpp">int a[7]={1,2,3,4,5,6,7}
-</code></pre>
-<p>如果需询问数组从第l个数到第r个数的和暴力做法时间复杂度为$O(n)$</p>
-<p>不过我们可以预处理一个<strong>前缀和</strong>数组</p>
-<pre><code class="lang-cpp">int b[7]={1,3,6,10,15,21,28}
-</code></pre>
-<p>比如要询问[l,r]区间的和我们可以这样做b[r]-b[l-1]这也时间复杂度为$O(1)$</p>
-<p>但是问题来了，如果我们要既要修改数组中元素的值，有要进行上述区间查询操作呢？</p>
-<p>我们发现每次我们修改原数组中元素的值时间复杂度为$O(1)$但是如果修改前缀和数组中元素的值时间复杂度将会退化到$O(n)$</p>
-<p>总结一下：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">数组</th>
-<th style="text-align:center">修改元素的值时间复杂度</th>
-<th style="text-align:center">区间求和时间复杂度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">原数组</td>
-<td style="text-align:center">O(1)</td>
-<td style="text-align:center">O(n)</td>
-</tr>
-<tr>
-<td style="text-align:center">前缀和数组</td>
-<td style="text-align:center">O(n)</td>
-<td style="text-align:center">O(1)</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>我们可以发现如果需要<strong>单点更新</strong>和<strong>区间查询</strong>两种操作时间复杂度都是$O(n)$</p>
-<h4 id="什么是树状数组"><a href="#什么是树状数组" class="headerlink" title="什么是树状数组?"></a>什么是树状数组?</h4><p>树状数组是一种便于进行<strong>单点更新</strong>和<strong>区间查询</strong>的数据结构</p>
-<h4 id="树状数组相关操作"><a href="#树状数组相关操作" class="headerlink" title="树状数组相关操作"></a>树状数组相关操作</h4><ol>
-<li><p>二进制中最后一个1——$lowbit$</p>
-<pre><code class="lang-cpp">int lowbit(int x)
-{
-    return x&amp;-x;
-}
-</code></pre>
-</li>
-<li><p>单点更新</p>
-<p>我们对数组位置为x的元素加上c</p>
-<pre><code class="lang-cpp">//树状数组为tree，数组元素个数为n，数组下标从0开始
-void add(int x,int c)
-{
-    for(;x&lt;=n;x+=lowbit(x)) tree[x]+=c;
-}
-</code></pre>
-</li>
-<li><p>区间求和</p>
-<pre><code class="lang-cpp">//求出[1,x]数组中的总和即前缀和
-int sum(int x)
-{
-    int res=0;
-    for(;x;x-=lowbit(x)) res+=tree[x];
-    return res;
-}
-</code></pre>
-<h4 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h4><p>我们很容易发现上述树状数组只适用于<strong>单点更新</strong>和<strong>区间查询</strong>，但是如果是<strong>区间修改</strong>和<strong>单点查询</strong>好像力不从心</p>
-<h4 id="差分在树状数组中的应用"><a href="#差分在树状数组中的应用" class="headerlink" title="差分在树状数组中的应用"></a>差分在树状数组中的应用</h4><p>告诉你个好消息如果有差分的介入，那么树状数组可以进行<strong>区间更新</strong>和<strong>单点查询</strong>当然也可以进行更厉害的<strong>区间更新</strong>和<strong>区间查询</strong>。</p>
-<h5 id="区间更新、单点查询"><a href="#区间更新、单点查询" class="headerlink" title="区间更新、单点查询"></a><strong>区间更新</strong>、<strong>单点查询</strong></h5><p>我们把$tree[]$数组构造成一个差分数组还是看题吧</p>
-<blockquote>
-<p><strong>题目</strong></p>
-<p>给定长度为N的数列A，然后输入M行操作指令。</p>
-<p>第一类指令形如“C l r d”，表示把数列中第l~r个数都加d。</p>
-<p>第二类指令形如“Q X”，表示询问数列中第x个数的值。</p>
-<p>对于每个询问，输出一个整数表示答案。</p>
+          <h2 id="奇怪的建图方式"><a href="#奇怪的建图方式" class="headerlink" title="奇怪的建图方式"></a>奇怪的建图方式</h2><h4 id="一、2020-4-23学校测试题"><a href="#一、2020-4-23学校测试题" class="headerlink" title="一、2020.4.23学校测试题"></a>一、2020.4.23学校测试题</h4><p><strong>题目描述</strong></p>
+<p>蒟蒻回家种地后，突然听说武汉迫切需要医疗物资。他老家的田地在s点，可是武汉在e点，为了运输货物，中途需要经过很多城市，这导致快递费非常的贵，于是他准备自己开车，可是现在油价也不便宜，他尽量省一些油。</p>
+<p>已知蒟蒻掌握着熟练的漂移技巧，当他在城市A时，他可以使用漂移到达城市B，这样耗费的油量为：$t×(A xor B)$，其中$t$为常数，$xor$为按位异或运算。此外他还可以不漂移，直接走公路，消耗的油量会给出。现在蒟蒻要从s到e点，请问他最少消耗多少升油?</p>
 <p><strong>输入格式</strong></p>
-<p>第一行包含两个整数N和M。</p>
-<p>第二行包含N个整数A[i]。</p>
-<p>接下来M行表示M条指令，每条指令的格式如题目描述所示。</p>
+<p>第一行三个数n($3≤n≤50000$)，m($0≤m≤100000$)，t($1≤t≤10^9$)代表有n个城市，共有m条连接城市的公路，和常数t。</p>
+<p>第二行有两个数s，e，代表起点为s号城市，终点为e号城市。</p>
+<p>第3到第m+2行，每行有三个数x，y，z，代表一条公路连接x号和y号城市，通过这条公路需要消耗z升</p>
+<p>油，道路均为双向，两个城市间可能有多条道路连通。<strong>城市标号从1开始</strong></p>
 <p><strong>输出格式</strong></p>
-<p>对于每个询问，输出一个整数表示答案。</p>
-<p>每个答案占一行。</p>
+<p>一行，一个数，为消耗的最少油量。</p>
+<p><strong>分析</strong></p>
+<p>很明显，题目是一个最短路问题，考虑对漂移方式的建图：如果将该点到其余所有点的漂移的边建出来发现最多可能需要建立$\cfrac{n(n-1)}{2}$条边，所以总的边数为$m+\cfrac{n(n-1)}{2}$，对于$dijkstra$算法复杂度是吃不消的。所以需要对漂移操作找一个更优的建边方式：</p>
+<blockquote>
+<p><strong>建异或的边考虑结合律(对于每一位的位运算是独立的考虑每一位的位运算然后相加)不需要把所有的边建出来</strong></p>
+<p>1101 -&gt; 1001 -&gt; 1011 -&gt; 1010<br>1101 -&gt; 1001 的代价是 100<br>1001 -&gt; 1011 的代价是 10<br>1011 -&gt; 1010 的代价是 1</p>
+<p>1101 -&gt; 1010<br>1101 -&gt; 1010 的代价是 111</p>
+<p>所以发现上述是等价的，每次只考虑改变一个二进制位</p>
 </blockquote>
+<p>总结一下：对于一个点到另一个点是对改变k次二进制位，<strong>每次对当前的点改变一个二进制位，能够达到漂移到任意点的效果。</strong>（但是要借助0这个点以达到枚举所有漂移情况）</p>
+<p><strong>代码</strong></p>
 <pre><code class="lang-cpp">#include&lt;iostream&gt;
 #include&lt;algorithm&gt;
 #include&lt;cstring&gt;
+#include&lt;queue&gt;
 using namespace std;
 typedef long long ll;
-const int N=100010;
-ll tree[N];
+typedef pair&lt;ll,int&gt;PLI;
+const int N=50010,M=1000020;
+int h[N],e[M],ne[M],idx;
+ll w[M];
+ll dist[N];
+bool st[N];
+int n,m,t,start,ed;
+void add(int a,int b,ll c)
+{
+    e[idx]=b;
+    w[idx]=c;
+    ne[idx]=h[a];
+    h[a]=idx++;
+}
+ll dijkstra()
+{
+    memset(dist,0x3f,sizeof dist);
+    priority_queue&lt;PLI,vector&lt;PLI&gt;,greater&lt;PLI&gt; &gt;heap;
+    heap.push({0,start});
+    dist[start]=0;
+    while(heap.size())
+    {
+        int t=heap.top().second;
+        heap.pop();
+        if(st[t]) continue;
+        st[t]=1;
+        for(int i=h[t];i!=-1;i=ne[i])
+        {
+            int j=e[i];
+            if(dist[j]&gt;dist[t]+w[i])
+            {
+                dist[j]=dist[t]+w[i];
+                heap.push({dist[j],j});
+            }
+        }
+    }
+    return dist[ed];
+}
+int main()
+{ 
+    memset(h,-1,sizeof h);
+    cin&gt;&gt;n&gt;&gt;m&gt;&gt;t&gt;&gt;start&gt;&gt;ed;
+    while(m--)
+    {
+        int a,b,c;
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;
+        add(a,b,c),add(b,a,c);
+    }
+    for(int i=0;i&lt;=n;i++)//借助0这个点
+        for(int j=0;j&lt;17;j++)
+            if((i^(1&lt;&lt;j))&lt;=n) 
+                add(i,i^(1&lt;&lt;j),1ll*t*(1&lt;&lt;j));
+    cout&lt;&lt;dijkstra()&lt;&lt;endl;
+    return 0;
+}
+//由于现在没有测试平台，此代码不一定正确但是思想没问题
+</code></pre>
+<h4 id="二、算法进阶指南——装满的油箱"><a href="#二、算法进阶指南——装满的油箱" class="headerlink" title="二、算法进阶指南——装满的油箱"></a>二、算法进阶指南——装满的油箱</h4><p><strong>题目描述</strong></p>
+<p>有N个城市（编号0、1…N-1）和M条道路，构成一张无向图。</p>
+<p>在每个城市里边都有一个加油站，不同的加油站的单位油价不一样。</p>
+<p>现在你需要回答不超过100个问题，在每个问题中，请计算出一架油箱容量为C的车子，从起点城市S开到终点城市E至少要花多少油钱？</p>
+<p><strong>注意：</strong> 假定车子初始时油箱是空的。</p>
+<p><strong>输入格式</strong></p>
+<p>第一行包含两个整数N和M。</p>
+<p>第二行包含N个整数，代表N个城市的单位油价，第i个数即为第i个城市的油价pipi。</p>
+<p>接下来M行，每行包括三个整数u,v,d，表示城市u与城市v之间存在道路，且车子从u到v需要消耗的油量为d。</p>
+<p>接下来一行包含一个整数q，代表问题数量。</p>
+<p>接下来q行，每行包含三个整数C、S、E，分别表示车子油箱容量、起点城市S、终点城市E。</p>
+<p><strong>输出格式</strong></p>
+<p>对于每个问题，输出一个整数，表示所需的最少油钱。</p>
+<p>如果无法从起点城市开到终点城市，则输出”impossible”。</p>
+<p>每个结果占一行。</p>
+<p><strong>数据范围</strong></p>
+<script type="math/tex; mode=display">1≤N≤1000,</script><script type="math/tex; mode=display">1≤M≤10000,</script><script type="math/tex; mode=display">1≤p_i≤100</script><script type="math/tex; mode=display">1≤d≤100,</script><script type="math/tex; mode=display">1≤C≤100</script><p><strong>分析</strong></p>
+<p><strong>如何表示状态？</strong></p>
+<p>对于每个状态有两点决定：①现在在什么地方②现在油箱有多少油。因此考虑分层图即拆点建图<script type="math/tex">dist[k][c]</script>：表示目前在k这个位置邮箱剩余油量为c这个状态。</p>
+<p><strong>如何转移状态？</strong>①对于k来说遍历该点的临边②对于c来说可以在该点加油（加油可以加任意升但是只需要考虑每次加一升油就可以实现加任意升油情况）</p>
+<p><strong>代码</strong></p>
+<pre><code class="lang-cpp">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstring&gt;
+#include&lt;queue&gt;
+using namespace std;
+const int N=1010,M=20010,C=110;
+int h[N],e[M],ne[M],w[M],idx;
+int price[N];
+int dist[N][C];
+bool st[N][C];
 int n,m;
-int lowbit(int x) 
+struct ver
 {
-    return x&amp;-x;
+    int d,u,c;
+    bool operator&lt; (const ver &amp;w) const 
+    {
+        return d&gt;w.d;
+    }
+};
+void add(int a,int b,int c)
+{
+    e[idx]=b;
+    ne[idx]=h[a];
+    w[idx]=c;
+    h[a]=idx++;
 }
-void add(int x,int c)
+int dijkstra(int start,int ed,int cap)
 {
-    for(;x&lt;=n;x+=lowbit(x)) tree[x]+=c;
-}
-ll sum(int x)
-{
-    int res=0;
-    for(;x;x-=lowbit(x)) res+=tree[x];
-    return res;
+    memset(dist,0x3f,sizeof dist);
+    memset(st,0,sizeof st);
+    priority_queue&lt;ver&gt; heap;
+    heap.push({0,start,0});
+    dist[start][0]=0;
+    while(heap.size())
+    {
+        auto t=heap.top();
+        heap.pop();
+
+        if(t.u==ed&amp;&amp;t.c==0) return t.d;
+
+        if(st[t.u][t.c]) continue;
+        st[t.u][t.c]=1;
+
+        if(t.c&lt;cap)
+        {
+            if(dist[t.u][t.c+1]&gt;t.d+price[t.u])
+            {
+                dist[t.u][t.c+1]=t.d+price[t.u];
+                heap.push({dist[t.u][t.c+1],t.u,t.c+1});
+            }
+        }
+        for(int i=h[t.u];i!=-1;i=ne[i])
+        {
+            int j=e[i];
+            if(t.c&gt;=w[i])
+            {
+                if(dist[j][t.c-w[i]]&gt;t.d)
+                {
+                    dist[j][t.c-w[i]]=t.d;
+                    heap.push({dist[j][t.c-w[i]],j,t.c-w[i]});
+                }
+            }
+        }
+    }
+    return -1;
 }
 int main()
 {
     cin&gt;&gt;n&gt;&gt;m;
-    for(int i=1;i&lt;=n;i++)
-    {
-        int a;
-        cin&gt;&gt;a;
-        add(i,a);
-        add(i+1,-a);
-    }
+    memset(h,-1,sizeof h);
+    for(int i=0;i&lt;n;i++) cin&gt;&gt;price[i];
     while(m--)
     {
-        char t;
-        cin&gt;&gt;t;
-        if(t==&#39;Q&#39;)
-        {
-            int x;
-            cin&gt;&gt;x;
-            cout&lt;&lt;sum(x)&lt;&lt;endl;
-        }
-        else
-        {
-            int a,b,c;
-            cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;
-            add(a,c);
-            add(b+1,-c);
-        }
+        int a,b,c;
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;
+        add(a,b,c),add(b,a,c);
+    }
+    int query;
+    cin&gt;&gt;query;
+    while(query--)
+    {
+        int a,b,c;
+        cin&gt;&gt;c&gt;&gt;a&gt;&gt;b;
+        int t=dijkstra(a,b,c);
+        if(t==-1) cout&lt;&lt;&quot;impossible&quot;&lt;&lt;endl;
+        else cout&lt;&lt;t&lt;&lt;endl;
     }
     return 0;
 }
 </code></pre>
-<p>我们可以发现对于上述代码即在建树的过程中建成差分树的形式即可</p>
-<h5 id="区间更新、区间查询"><a href="#区间更新、区间查询" class="headerlink" title="区间更新、区间查询"></a><strong>区间更新</strong>、<strong>区间查询</strong></h5><p>原数组a[]，对于<strong>区间更新</strong>我们可以维护一个差分数组b[]</p>
-<p>如果我们维护数组a的前缀和我们可以发现有下面等式：</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^x a_i=\sum_{i=1}^x\sum_{j=1}^i b_i=\sum_{i=1}^x(x-i+1)b_i</script><p>变换一下：</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^x a_i=(x+1)\sum_{i=1}^x b_i-\sum_{i=1}^x b_i×i</script></li>
-</ol>
-<p>   于是我们可以维护两个差分树状数组$tree1[]$维护$ bi $、$tree2[]$维护$i*bi$</p>
-<blockquote>
-<p>给定一个长度为N的数列A，以及M条指令，每条指令可能是以下两种之一：</p>
-<p>1、“C l r d”，表示把 A[l],A[l+1],…,A[r] 都加上 d。</p>
-<p>2、“Q l r”，表示询问 数列中第 l~r 个数的和。</p>
-<p>对于每个询问，输出一个整数表示答案。</p>
-<p><strong>输入格式</strong></p>
-<p>第一行两个整数N,M。</p>
-<p>第二行N个整数A[i]。</p>
-<p>接下来M行表示M条指令，每条指令的格式如题目描述所示。</p>
-<p><strong>输出格式</strong></p>
-<p>对于每个询问，输出一个整数表示答案。</p>
-<p>每个答案占一行。</p>
-</blockquote>
-<pre><code class="lang-cpp">   #include&lt;iostream&gt;
-   #include&lt;algorithm&gt;
-   #include&lt;cstdio&gt;
-   #include&lt;cstring&gt;
-
-   using namespace std;
-
-   typedef long long ll;
-
-   const int N=100010;
-
-   int n,m;
-   ll tree1[N],tree2[N];  //维护b[i]  维护i*b[i]
-   int lowbit(int x)
-   {
-       return x&amp;-x;
-   }
-
-   void add(ll tree[],int x,ll c)
-   {
-       for(;x&lt;=n;x+=lowbit(x)) tree[x]+=c;
-   }
-
-   ll sum(ll tree[],int x)
-   {
-       ll res=0;
-       for(;x;x-=lowbit(x)) res+=tree[x];
-       return res;
-   }
-   ll prefix_sum(int x)
-   {
-       return (x+1)*sum(tree1,x)-sum(tree2,x);
-   }
-
-   int main()
-   {
-       scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
-
-       for(int i=1;i&lt;=n;i++)
-       {
-           int a;
-           scanf(&quot;%d&quot;,&amp;a);
-
-           add(tree1,i,a);
-           add(tree1,i+1,-a);
-           add(tree2,i,1ll*i*a);
-           add(tree2,i+1,-1ll*(i+1)*a);
-       }
-       while(m--)
-       {
-           char t;
-           int l,r;
-           cin&gt;&gt;t&gt;&gt;l&gt;&gt;r;
-           if(t==&#39;Q&#39;)
-           {
-               scanf(&quot;%d%d&quot;,&amp;l,&amp;r);
-               cout&lt;&lt;prefix_sum(r)-prefix_sum(l-1)&lt;&lt;endl;
-           }
-           else
-           {
-               int d;
-               scanf(&quot;%d&quot;,&amp;d);
-               add(tree1,l,d),add(tree1,r+1,-d);
-               add(tree2,l,l*d),add(tree2, r+1,-1ll*(r+1)*d);
-
-           }
-       }
-       return 0;
-   }
-</code></pre>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>   2020/5/6学习树状数组，树状数组可以优化很多问题未来等遇到了在加进去</p>
-<p>   以上题目来自于$lyd$老师的《算法进阶指南》参考$lcf$大佬博客</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>发现上述两题有一个共同特点：<strong>每次进行1次操作来实现k次操作都用</strong>。第一题：改变k次二进制位每次考虑改变一位。第二题：每次可以加k升油考虑每次只加一升油。</p>
 
         </div>
         <!-- .entry-content -->
@@ -570,23 +539,23 @@ int main()
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
+        
           
-            <div class="post-nepre full previous">
+            <div class="post-nepre full next">
           
-            <a href="/2020/05/11/奇怪的建图方式/" rel="prev">
+            <a href="/2020/05/06/树状数组/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="http://pic1.win4000.com/wallpaper/2/583556fda1076.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="http://pic1.win4000.com/wallpaper/2/583556fda1076.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589200372728&di=ada52f37a99d9e8bc7df996b9c4f969e&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1209%2F07%2Fc0%2F13694092_1346987078266.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589200372728&di=ada52f37a99d9e8bc7df996b9c4f969e&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1209%2F07%2Fc0%2F13694092_1346987078266.jpg">
               </div>
               <span class="label">
-              Previous Post</span>
+              Next Post</span>
               <div class="info">
                 <h3>
-                奇怪的建图方式</h3>
+                树状数组</h3>
                 <hr>
               </div>
             </a>
           </div>
-        
         
       </section>
       

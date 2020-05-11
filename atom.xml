@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2020-05-06T07:20:46.149Z</updated>
+  <updated>2020-05-11T09:54:33.229Z</updated>
   <id>/</id>
   
   <author>
@@ -17,73 +17,42 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>奇怪的建图方式</title>
+    <link href="/2020/05/11/%E5%A5%87%E6%80%AA%E7%9A%84%E5%BB%BA%E5%9B%BE%E6%96%B9%E5%BC%8F/"/>
+    <id>/2020/05/11/奇怪的建图方式/</id>
+    <published>2020-05-11T09:50:39.000Z</published>
+    <updated>2020-05-11T09:54:33.229Z</updated>
+    
+    <summary type="html">
+    
+      巧妙的建图方式优化复杂度
+    
+    </summary>
+    
+      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="图论" scheme="/tags/%E5%9B%BE%E8%AE%BA/"/>
+    
+  </entry>
+  
+  <entry>
     <title>树状数组</title>
     <link href="/2020/05/06/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/"/>
     <id>/2020/05/06/树状数组/</id>
     <published>2020-05-06T07:00:26.000Z</published>
-    <updated>2020-05-06T07:20:46.149Z</updated>
+    <updated>2020-05-11T09:49:12.260Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;树状数组&quot;&gt;&lt;a href=&quot;#树状数组&quot; class=&quot;headerlink&quot; title=&quot;树状数组&quot;&gt;&lt;/a&gt;树状数组&lt;/h2&gt;&lt;h4 id=&quot;聊聊前缀和&quot;&gt;&lt;a href=&quot;#聊聊前缀和&quot; class=&quot;headerlink&quot;
-        
-      
+      树状数组优化区间操作
     
     </summary>
     
       <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-  </entry>
-  
-  <entry>
-    <title>codeforces</title>
-    <link href="/2020/05/04/codeforces/"/>
-    <id>/2020/05/04/codeforces/</id>
-    <published>2020-05-04T03:37:00.000Z</published>
-    <updated>2020-05-06T07:18:39.661Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;\begin{cases} 3x + 5y + z \\ 7x - 2y + 4z \\ -6x + 3y + 2z \end{cases}z&lt;/p&gt;
-&lt;math&gt;f(x) \,\!&lt;/math&gt; &lt;math&gt;= \sum_{n=0}^\infty a_n x^n
-        
-      
-    
-    </summary>
-    
-      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>codeforces 608 problemC</title>
-    <link href="/2020/05/04/MATLAB%E7%81%B0%E8%89%B2%E9%A2%84%E6%B5%8B/"/>
-    <id>/2020/05/04/MATLAB灰色预测/</id>
-    <published>2020-05-04T02:11:00.000Z</published>
-    <updated>2020-05-06T07:22:15.678Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h5 id=&quot;description&quot;&gt;&lt;a href=&quot;#description&quot; class=&quot;headerlink&quot; title=&quot;description&quot;&gt;&lt;/a&gt;description&lt;/h5&gt;&lt;p&gt;There are $n$ beacons located at
-        
-      
-    
-    </summary>
-    
+      <category term="数据结构" scheme="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
