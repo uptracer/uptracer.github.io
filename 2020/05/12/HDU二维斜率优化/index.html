@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Category: 技术 | Fighting_Peter</title>
+  <title itemprop="name">HDU二维斜率优化 | Fighting_Peter</title>
   
     <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/images/favicon.ico">
   
@@ -280,237 +280,259 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/banner/coding.jpg" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://pic1.zhimg.com/v2-24246c33b317f327fff045ac7abe9a27_hd.jpeg);" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://pic1.zhimg.com/v2-24246c33b317f327fff045ac7abe9a27_hd.jpeg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      HDU二维斜率优化</h1>
+      <p class="entry-census">
+        <span>
+          <a href="">
+            <img src="https://cdn.acwing.com/media/user/profile/photo/31999_lg_cdcab6fa66.jpg">
+          </a>
+        </span>
+        <span>
+          <a href="">uptracer</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-5-12<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">野生技术协会</h1>
-    <span class="cat-des">
-      <p>Geek – Only for Love</p>
-    </span>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h2 id="二维斜率优化"><a href="#二维斜率优化" class="headerlink" title="二维斜率优化"></a>二维斜率优化</h2><h4 id="一、HDU-3480-Division​"><a href="#一、HDU-3480-Division​" class="headerlink" title="一、HDU 3480 Division​"></a>一、HDU 3480 Division​</h4><p><strong>题目描述</strong></p>
+<p>Little D is really interested in the theorem of sets recently. There’s a problem that confused him a long time.<br>Let T be a set of integers. Let the MIN be the minimum integer in T and MAX be the maximum, then the cost of set T if defined as (MAX – MIN)^2. Now given an integer set S, we want to find out M subsets S1, S2, …, SM of S, such that</p>
+<p><img src="http://acm.hdu.edu.cn/data/images/C295-1003-1.jpg" alt="img"></p>
+<p>and the total cost of each subset is minimal.</p>
+<p><strong>输入格式</strong></p>
+<p>The input contains multiple test cases.<br>In the first line of the input there’s an integer $T$ which is the number of test cases. Then the description of $T$ test cases will be given.<br>For any test case, the first line contains two integers $N (≤ 10000)$ and $M (≤ 5,000)$. $N$ is the number of elements in S (may be duplicated). $M$ is the number of subsets that we want to get. In the next line, there will be $N$ integers giving set S.</p>
+<p><strong>输出格式</strong></p>
+<p>For each test case, output one line containing exactly one integer, the minimal total cost. Take a look at the sample output for format.</p>
+<p><strong>题目大意</strong></p>
+<p>有一个集合，把这个集合分解成一定数量的自己，每一个子集有一个代价，代价计算方式是这个集合极差的平方。求这个集合分成相应数量集合的最小代价。</p>
+<p><strong>题目分析</strong></p>
+<p>很明显这个一个$dp$的题。</p>
+<p>状态表示：①集合:$f[j][i]$表示将前$i$个数分成$j$个集合。②属性:划分的最小代价</p>
+<p>状态计算：$f[j][i]=f[j-1][k]+(w[i]-w[k+1])^2$ $(j-1≤k&lt;i)$</p>
+<p>时间复杂度$O(mn^2)$对于题中的数据是吃不消的所以要优化。</p>
+<p>斜率表示：$f[j-1][k]+w[k+1]^2=2w[i]w[k+1]+f[j][i]-w[i]^2$</p>
+<p>于是若写成$Y=kX+b$，那么$Y=f[j-1][k]+w[k+1],X=w[k+1]$</p>
+<p><strong>代码</strong></p>
+<pre><code class="lang-cpp">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstring&gt;
+using namespace std;
+typedef long long ll;
+const int N=10010,M=5010;
+int n,m;
+int w[N],q[N];
+int f[M][N];
+int gety(int j,int a,int b)
+{
+    return f[j][b]+w[b+1]*w[b+1]-f[j][a]-w[a+1]*w[a+1];
+}
+int getx(int a,int b)
+{
+    return w[b+1]-w[a+1];
+}
+int main()
+{
+    int T;
+    cin&gt;&gt;T;
+    for(int K=1;K&lt;=T;K++)
+    {
+        cin&gt;&gt;n&gt;&gt;m;
+        for(int i=1;i&lt;=n;i++) cin&gt;&gt;w[i];
+        sort(w+1,w+1+n);//先排序
+        int tt,hh;//定义对头队尾
+        //初始话边界对于i个元素分成1组
+        for(int i=1;i&lt;=n;i++) f[1][i]=(w[i]-w[1])*(w[i]-w[1]);
+
+        for(int j=2;j&lt;=m;j++)//从第二组开始讨论
+        {
+            tt=1,hh=0;//初始化
+            q[tt]=j-1;
+            for(int i=j;i&lt;=n;i++)//集合中的元素个数必须不小于分的组数
+            {
+                int k=2*w[i];
+                while(tt&gt;hh&amp;&amp;gety(j-1,q[hh],q[hh+1])&lt;=k*getx(q[hh],q[hh+1])) hh++;
+                f[j][i]=f[j-1][q[hh]]+(w[i]-w[q[hh]+1])*(w[i]-w[q[hh]+1]);
+                while(tt&gt;hh&amp;&amp;gety(j-1,q[tt-1],q[tt])*getx(q[tt],i)&gt;=gety(j-1,q[tt],i)*getx(q[tt-1],q[tt])) tt--;
+                q[++tt]=i;
+            }
+        }
+        printf(&quot;Case %d: %d\n&quot;,K,f[m][n]);
+
+    }
+    return 0;
+}
+</code></pre>
+<h4 id="二、HDU-2829-Lawrence"><a href="#二、HDU-2829-Lawrence" class="headerlink" title="二、HDU 2829 Lawrence"></a>二、HDU 2829 Lawrence</h4><p><strong>题目描述</strong></p>
+<p>T. E. Lawrence was a controversial figure during World War I. He was a British officer who served in the Arabian theater and led a group of Arab nationals in guerilla strikes against the Ottoman Empire. His primary targets were the railroads. A highly fictionalized version of his exploits was presented in the blockbuster movie, “Lawrence of Arabia”.</p>
+<p>You are to write a program to help Lawrence figure out how to best use his limited resources. You have some information from British Intelligence. First, the rail line is completely linear—-there are no branches, no spurs. Next, British Intelligence has assigned a Strategic Importance to each depot—-an integer from 1 to 100. A depot is of no use on its own, it only has value if it is connected to other depots. The Strategic Value of the entire railroad is calculated by adding up the products of the Strategic Values for every pair of depots that are connected, directly or indirectly, by the rail line. Consider this railroad:</p>
+<p><img src="http://acm.hdu.edu.cn/data/images/2829-1.jpg" alt="img"></p>
+<p>Its Strategic Value is 4×5 + 4×1 + 4×2 + 5×1 + 5×2 + 1×2 = 49.</p>
+<p>Now, suppose that Lawrence only has enough resources for one attack. He cannot attack the depots themselves—-they are too well defended. He must attack the rail line between depots, in the middle of the desert. Consider what would happen if Lawrence attacked this rail line right in the middle:</p>
+<p><img src="http://acm.hdu.edu.cn/data/images/2829-2.jpg" alt="img"></p>
+<p>The Strategic Value of the remaining railroad is 4×5 + 1×2 = 22. But, suppose Lawrence attacks between the 4 and 5 depots:</p>
+<p><img src="http://acm.hdu.edu.cn/data/images/2829-3.jpg" alt="img"></p>
+<p>The Strategic Value of the remaining railroad is 5×1 + 5×2 + 1×2 = 17. This is Lawrence’s best option.</p>
+<p>Given a description of a railroad and the number of attacks that Lawrence can perform, figure out the smallest Strategic Value that he can achieve for that railroad.</p>
+<p><strong>输入格式</strong></p>
+<p>There will be several data sets. Each data set will begin with a line with two integers, n and m. n is the number of depots on the railroad (1≤n≤1000), and m is the number of attacks Lawrence has resources for (0≤m&lt;n). On the next line will be n integers, each from 1 to 100, indicating the Strategic Value of each depot in order. End of input will be marked by a line with n=0 and m=0, which should not be processed.</p>
+<p><strong>输出格式</strong></p>
+<p>For each data set, output a single integer, indicating the smallest Strategic Value for the railroad that Lawrence can achieve with his attacks. Output each integer in its own line.</p>
+<p><strong>题目大意</strong></p>
+<p>有n个仓库每个仓库有一个权值，你可以轰炸m次n个仓库之间的铁路使他们断开，连续的仓库有一个总权值大小为每每两个仓库的权值的乘积之和，要求轰炸m次即让他们分成m+1个子序列的总权值和最小</p>
+<p><strong>题目分析</strong></p>
+<p>这也是一个$dp$的题</p>
+<p>状态表示：①集合:$f[j][i]$表示对于前$i$个仓库轰炸$j$次的集合。②属性:最小</p>
+<p>状态计算：$f[j][i]=f[j-1][k]+\sum_{a=k+1}^i w[a]×(\sum_{b=a+1}^i w[b])$</p>
+<p>我们用$s[i]=w[1]+w[2]+\dots+w[i]$，$ms[i]=w[1]×s[1]+w[2]×s[2]+\dots+w[i]×s[i]$</p>
+<p>于是上述式子可化简为$f[j][i]=f[j-1][k]+s[i]×(s[i]-s[k])+ms[k]-ms[i]$</p>
+<p>斜率表示：$f[j-1][k]+ms[k]=s[i]s[k]+f[j][i]-s^2[i]+ms[i]$</p>
+<p>于是若写成$Y=kX+b$，$Y=f[j-1][k]+ms[k]$，$X=s[k]$</p>
+<p><strong>代码</strong></p>
+<pre><code class="lang-cpp">#include&lt;iostream&gt;
+#include&lt;cstring&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+typedef long long ll;
+const int N=1010;
+int n,m,q[N];
+ll w[N],s[N],ms[N];
+ll f[N][N];
+ll gety(int j,int a,int b)
+{
+    return f[j][b]+ms[b]-f[j][a]-ms[a];
+}
+ll getx(int a,int b)
+{
+    return s[b]-s[a];
+}
+int main()
+{
+    while(scanf(&quot;%d%d&quot;,&amp;n,&amp;m),n||m)
+    {
+        for(int i=1;i&lt;=n;++i)
+        {
+            scanf(&quot;%lld&quot;,&amp;w[i]);
+            s[i]=s[i-1]+w[i];//前缀和
+            ms[i]=ms[i-1]+w[i]*s[i];//w[i]s[i]的前缀和
+            f[0][i]=s[i]*s[i]-ms[i];//初始化边界
+        }
+        int tt,hh;
+        for(int j=1;j&lt;=m;++j)
+        {
+            tt=1,hh=0;
+            //f[j-1][j]这个更新过后要吧第j的点加入队列，j前面的点没有意义要删去
+            q[tt]=j;
+            for(int i=j+1;i&lt;=n;++i)//仓库的个数是i之间的铁路个数是i-1,所以i-1&gt;=j
+            {
+                ll k=s[i];
+                while(tt&gt;hh&amp;&amp;gety(j-1,q[hh],q[hh+1])&lt;=getx(q[hh],q[hh+1])*k) hh++;
+
+                f[j][i]=f[j-1][q[hh]]+s[i]*(s[i]-s[q[hh]])+ms[q[hh]]-ms[i];
+                while(tt&gt;hh&amp;&amp;gety(j-1,q[tt-1],q[tt])*getx(q[tt],i)&gt;=gety(j-1,q[tt],i)*getx(q[tt-1],q[tt])) tt--;
+                q[++tt]=i;
+            }
+        }
+        printf(&quot;%lld\n&quot;,f[m][n]);
+    }
+    return 0;
+}
+</code></pre>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>对于二维斜率优化，有一个关键的就是在第一层循环的时候初始化的<code>tt=1,hh=0,q[tt]=j</code>至于为什么需要<code>q[tt]=j</code>暂时还想的不是很明白:)，目前认为是上一层只有一个点有效的。</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏
+            <div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="/img/custom/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="/img/custom/donate/WeChanQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2020/05/11/奇怪的建图方式/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="http://pic1.win4000.com/wallpaper/2/583556fda1076.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="http://pic1.win4000.com/wallpaper/2/583556fda1076.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                奇怪的建图方式</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/05/12/HDU二维斜率优化/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://pic1.zhimg.com/v2-24246c33b317f327fff045ac7abe9a27_hd.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/05/12/HDU二维斜率优化/">
-    HDU二维斜率优化</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-5-12</div>
-    <p>
-    二维斜率优化</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/05/12/HDU二维斜率优化/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/05/11/奇怪的建图方式/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="http://pic1.win4000.com/wallpaper/2/583556fda1076.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/05/11/奇怪的建图方式/">
-    奇怪的建图方式</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-5-11</div>
-    <p>
-    巧妙的建图方式优化复杂度</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/05/11/奇怪的建图方式/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/05/06/树状数组/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1589200372728&amp;di=ada52f37a99d9e8bc7df996b9c4f969e&amp;imgtype=0&amp;src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1209%2F07%2Fc0%2F13694092_1346987078266.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/05/06/树状数组/">
-    树状数组</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-5-6</div>
-    <p>
-    树状数组优化区间操作</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/05/06/树状数组/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
 
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!--  -->
-    
-  </div>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <a href="" class="profile gravatar"><img src="https://cdn.acwing.com/media/user/profile/photo/31999_lg_cdcab6fa66.jpg" itemprop="image" alt="uptracer" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="" itemprop="url" rel="author">uptracer</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i>月亮是否只在你看着他的时候才存在</p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
 
-<!-- 
-  
-    <article class="post post-list" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/05/12/HDU二维斜率优化/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://pic1.zhimg.com/v2-24246c33b317f327fff045ac7abe9a27_hd.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/05/12/HDU二维斜率优化/">
-    HDU二维斜率优化</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-5-12</div>
-    <p>
-    二维斜率优化</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/05/12/HDU二维斜率优化/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/05/11/奇怪的建图方式/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="http://pic1.win4000.com/wallpaper/2/583556fda1076.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/05/11/奇怪的建图方式/">
-    奇怪的建图方式</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-5-11</div>
-    <p>
-    巧妙的建图方式优化复杂度</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/05/11/奇怪的建图方式/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/05/06/树状数组/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1589200372728&amp;di=ada52f37a99d9e8bc7df996b9c4f969e&amp;imgtype=0&amp;src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1209%2F07%2Fc0%2F13694092_1346987078266.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/05/06/树状数组/">
-    树状数组</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-5-6</div>
-    <p>
-    树状数组优化区间操作</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/05/06/树状数组/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
 
- -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
