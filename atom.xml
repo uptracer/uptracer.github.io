@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2020-05-12T12:38:01.410Z</updated>
+  <updated>2020-05-16T05:50:46.234Z</updated>
   <id>/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>并查集简单拓展</title>
+    <link href="/2020/05/16/%E5%B9%B6%E6%9F%A5%E9%9B%86%E7%AE%80%E5%8D%95%E6%8B%93%E5%B1%95/"/>
+    <id>/2020/05/16/并查集简单拓展/</id>
+    <published>2020-05-16T05:47:18.000Z</published>
+    <updated>2020-05-16T05:50:46.234Z</updated>
+    
+    <summary type="html">
+    
+      拓展域并查集、带权并查集、并查集删除操作
+    
+    </summary>
+    
+      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="数据结构" scheme="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
   
   <entry>
     <title>HDU二维斜率优化</title>

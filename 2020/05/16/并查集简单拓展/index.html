@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">archive_a: 2020/5 | Fighting_Peter</title>
+  <title itemprop="name">并查集简单拓展 | Fighting_Peter</title>
   
     <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/images/favicon.ico">
   
@@ -280,104 +280,330 @@
   </div>
 </header>
 
-      <div class="blank" style="padding-top: 75px;">
-</div>
-<div id="content" class="site-content">
-  <div id="main">
-    <header class="page-header">
-      <h1 class="cat-title">
-      归档</h1>
-      <span class="cat-des">
-        <p>
-        Archives</p>
-      </span>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1589617950527&amp;di=683199ea2c94e4ac43fdee10ea13540e&amp;imgtype=0&amp;src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201308%2F05%2F20130805105309_5E2zE.jpeg);" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1589617950527&amp;di=683199ea2c94e4ac43fdee10ea13540e&amp;imgtype=0&amp;src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201308%2F05%2F20130805105309_5E2zE.jpeg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      并查集简单拓展</h1>
+      <p class="entry-census">
+        <span>
+          <a href="hojun.cn">
+            <img src="https://cdn.acwing.com/media/user/profile/photo/31999_lg_cdcab6fa66.jpg">
+          </a>
+        </span>
+        <span>
+          <a href="hojun.cn">uptracer</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-5-16<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
-    <div id="main-part">
-      <article class="art">
-        <div class="art-main">
-          <div class="art-content">
-            <div id="archives">
-              <p style="text-align:right;">
-                [<span id="al_expand_collapse" style="cursor: s-resize;">
-                全部展开/收缩</span>
-              ]</p>
-              
-              
-              
-              
-              
-                
-                <h3 class="al_year">2020年</h3>
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      05月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/05/16/并查集简单拓展/">
-                          <span style="color:#0bf;">
-                          16日13:47:18</span>
-                          并查集简单拓展
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/05/12/HDU二维斜率优化/">
-                          <span style="color:#0bf;">
-                          12日20:36:39</span>
-                          HDU二维斜率优化
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/05/11/奇怪的建图方式/">
-                          <span style="color:#0bf;">
-                          11日17:50:39</span>
-                          奇怪的建图方式
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/05/06/树状数组/">
-                          <span style="color:#0bf;">
-                          06日15:00:26</span>
-                          树状数组
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h2 id="并查集简单拓展"><a href="#并查集简单拓展" class="headerlink" title="并查集简单拓展"></a>并查集简单拓展</h2><h4 id="1-并查集基本操作"><a href="#1-并查集基本操作" class="headerlink" title="1.并查集基本操作"></a>1.并查集基本操作</h4><pre><code class="lang-cpp">int find(int x)//路径压缩办找爸爸
+{
+    if(x!=p[x]) p[x]=find(p[x]);
+    return p[x];
+}
+</code></pre>
+<pre><code>void merge(int x,int y)//合并
+{
+    int px=find(x),py=find(y);
+    if(px!=py) p[px]=py;
+}
+</code></pre><h4 id="2-并查集求反集——洛谷P1892-BOI2003-团伙"><a href="#2-并查集求反集——洛谷P1892-BOI2003-团伙" class="headerlink" title="2.并查集求反集——洛谷P1892 [BOI2003]团伙"></a>2.并查集求反集——洛谷P1892 [BOI2003]团伙</h4><p><strong>对于并查集通常维护的是两个东西有相关性，对于对立性需要新的方式来维护</strong></p>
+<blockquote>
+<p>第二天的时候，我了解到还有拓展域并查集，然后了解了相关操作后发现原来这个并查集求反集就是最简单的拓展域hh，较为复杂的拓展域可以做做食物链这个题。</p>
+</blockquote>
+<p><strong>题目描述</strong></p>
+<p>1920年的芝加哥，出现了一群强盗。如果两个强盗遇上了，那么他们要么是朋友，要么是敌人。而且有一点是肯定的，就是：<strong>我朋友的朋友是我的朋友；我敌人的敌人也是我的朋友</strong>。两个强盗是同一团伙的条件是当且仅当他们是朋友。现在给你一些关于强盗们的信息，问你最多有多少个强盗团伙。</p>
+<p><strong>输入格式</strong></p>
+<p>输入的第一行是一个整数N(2&lt;=N&lt;=1000)，表示强盗的个数（从1编号到N）。 第二行M(1&lt;=M&lt;=5000)，表示关于强盗的信息条数。 以下M行，每行可能是F p q或是E p q（1&lt;=p q&lt;=N），F表示p和q是朋友，E表示p和q是敌人。输入数据保证不会产生信息的矛盾。</p>
+<p><strong>输入格式</strong></p>
+<p>输出只有一行，表示最大可能的团伙数。</p>
+<p><strong>题目分析</strong></p>
+<p>对于朋友这个关系很容易用并查集来维护。如果是敌人呢？这个对立条件我们可以<strong>建立自己的一个虚拟的敌人与对方形成朋友从而间接的把敌人的敌人和自己连接到一个并查集里</strong>。因此我们可以将<code>p[2*n]</code>开成两倍长<code>p[i]</code>的虚拟敌人为<code>p[n+i]</code>凡是<strong>跟虚拟敌人相连的人都会被连到一起</strong>。</p>
+<p><strong>注意：将虚拟节点的父亲连到实际的节点（因为虚拟节点是不存在的）</strong></p>
+<p><strong>代码</strong></p>
+<pre><code class="lang-cpp">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstring&gt;
+using namespace std;
+const int N=2010,M=10010;
+int n,m;
+int p[N];
+int find(int x)
+{
+    if(x!=p[x]) p[x]=find(p[x]);
+    return p[x];
+}
+int main()
+{
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i=1;i&lt;=2*n;i++) p[i]=i;
+    while(m--)
+    {
+        char t;
+        int a,b;
+        cin&gt;&gt;t&gt;&gt;a&gt;&gt;b;
+        if(t==&#39;E&#39;)
+        {
+            p[find(a+n)]=p[find(b)];//将虚拟节点的父亲连向实际节点
+            p[find(b+n)]=p[find(a)];//p[find(a)]=p[find(b+n)]这样不对!!!
+        }
+        else
+        {
+            int pa=find(a),pb=find(b);
+            p[pa]=pb;
+        }
+    }
+    int res=0;
+    for(int i=1;i&lt;=n;i++) 
+        if(i==p[i]) res++;
+    cout&lt;&lt;res&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<h4 id="3-并查集删除操作——HDU-2473-Junk-Mail-Filter"><a href="#3-并查集删除操作——HDU-2473-Junk-Mail-Filter" class="headerlink" title="3.并查集删除操作——HDU 2473 Junk-Mail Filter"></a>3.并查集删除操作——HDU 2473 Junk-Mail Filter</h4><p>所谓并查集就是<strong>合并</strong>和<strong>查询</strong>但是偶尔也会遇见删除的操作</p>
+<p><strong>题目描述</strong></p>
+<p>Recognizing junk mails is a tough task. The method used here consists of two steps:<br>1) Extract the common characteristics from the incoming email.<br>2) Use a filter matching the set of common characteristics extracted to determine whether the email is a spam.</p>
+<p>We want to extract the set of common characteristics from the N sample junk emails available at the moment, and thus having a handy data-analyzing tool would be helpful. The tool should support the following kinds of operations:</p>
+<p>a) “M X Y”, meaning that we think that the characteristics of spam X and Y are the same. Note that the relationship defined here is transitive, so<br>relationships (other than the one between X and Y) need to be created if they are not present at the moment.</p>
+<p>b) “S X”, meaning that we think spam X had been misidentified. Your tool should remove all relationships that spam X has when this command is received; after that, spam X will become an isolated node in the relationship graph.</p>
+<p>Initially no relationships exist between any pair of the junk emails, so the number of distinct characteristics at that time is N.<br>Please help us keep track of any necessary information to solve our problem.</p>
+<p><strong>输入格式</strong></p>
+<p>There are multiple test cases in the input file.<br>Each test case starts with two integers, N and M (1 ≤ N ≤ 105 , 1 ≤ M ≤ 106), the number of email samples and the number of operations. M lines follow, each line is one of the two formats described above.<br>Two successive test cases are separated by a blank line. A case with N = 0 and M = 0 indicates the end of the input file, and should not be processed by your program.</p>
+<p><strong>输出格式</strong></p>
+<p>For each test case, please print a single integer, the number of distinct common characteristics, to the console. Follow the format as indicated in the sample below.</p>
+<p><strong>题目大意</strong></p>
+<p>维护一个集合，支持合并和删除两种操作，最终输入有几类。</p>
+<p><strong>题目分析</strong></p>
+<p>维护能够支持删除操作的并查集。常规并查集的初始化的方法是把每个节点的父节点初始化成自己，<code>p[u]=u</code>，u这个节点就是整个集合的祖宗，此时，u点就有了两重身份：<strong>既是一个节点的名字，也是这个集合祖宗的名字</strong>，而删除操作的关键就是只改变这一个点的祖宗，而不能改变这个点所在集合的祖宗。因此要把每个节点名字的两重身份分离开，u只表示这个节点的名字，然后给他找一个祖宗（建立虚点），而且，u永远不会是u的祖宗。先给每一个节点建立一个父节点。于是我们让<code>p[i]=i+n</code>，<strong>1~n中第i个节点的父亲是n+i，大于n节点父亲还是自己</strong>，这样我们就可以把节点的名字和集合祖宗的名字分开。</p>
+<pre><code class="lang-cpp">void init()//我们可以这样初始化
+{
+    idx=n;
+    for(int i=1;i&lt;=n;i++) p[i]=idx++;//遍历完后 idx应该等于2n+1
+    for(int i=n;i&lt;idx;i++) p[i]=i;
+}
+</code></pre>
+<p>对于删除操作，我们只需要将这个点的父亲指向一个新的节点（这个节点从未使用过），这样就可以完成删除。</p>
+<pre><code class="lang-cpp">void delete(int x)
+{
+    p[x]=idx;
+    p[idx]=idx;//除了1~n个节点，我们都将该节点的父亲指向自己
+    idx++;//这个相当于数组计数器，每次删除需要多开辟一个位置即未使用的节点
+}
+</code></pre>
+<p><strong>代码</strong></p>
+<pre><code class="lang-cpp">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
+using namespace std;
+const int N=1200010;
+int p[N],idx;
+int n,m;
+bool st[N];
+int find(int x)
+{
+    if(x!=p[x]) p[x]=find(p[x]);
+    return p[x];
+}
+void init()
+{
+    idx=n;
+    for(int i=0;i&lt;n;i++) p[i]=idx++;
+    for(int i=n;i&lt;idx;i++) p[i]=i;
+}
+int main()
+{
+    int cnt=0;
+    while(cin&gt;&gt;n&gt;&gt;m,m+n)
+    {
+        cnt++;
+        init();
+        char op[2];
+        while(m--)
+        {
+            cin&gt;&gt;op;
+            if(op[0]==&#39;M&#39;)
+            {
+                int x,y;
+                cin&gt;&gt;x&gt;&gt;y;
+                int px=find(x),py=find(y);
+                p[px]=py;
+            }
+            else
+            {
+                int x;
+                cin&gt;&gt;x;
+                p[x]=idx;
+                p[idx]=idx;
+                idx++;
+            }           
+        }
+        memset(st,0,sizeof st);
+        int res=0;
+        for(int i=0;i&lt;n;i++)
+        {
+            int px=find(i);
+            if(!st[px])
+            {
+                st[px]=1;
+                res++;
+            }
+        }
+        printf(&quot;Case #%d: %d\n&quot;,cnt,res);
+    }
+    return 0;
+}
+</code></pre>
+<h4 id="4-单向并查集——洛谷P2835-刻录光盘"><a href="#4-单向并查集——洛谷P2835-刻录光盘" class="headerlink" title="4.单向并查集——洛谷P2835 刻录光盘"></a>4.单向并查集——洛谷P2835 刻录光盘</h4><p>对于并查集维护的关系都是双向的，但有些题目是单向的。</p>
+<p><strong>题目描述</strong></p>
+<p>在JSOI2005夏令营快要结束的时候，很多营员提出来要把整个夏令营期间的资料刻录成一张光盘给大家，以便大家回去后继续学习。组委会觉得这个主意不错！可是组委会一时没有足够的空光盘，没法保证每个人都能拿到刻录上资料的光盘，又来不及去买了，怎么办呢？！</p>
+<p>组委会把这个难题交给了LHC，LHC分析了一下所有营员的地域关系，发现有些营员是一个城市的，其实他们只需要一张就可以了，因为一个人拿到光盘后，其他人可以带着U盘之类的东西去拷贝啊！</p>
+<p>可是，LHC调查后发现，由于种种原因，有些营员并不是那么的合作，他们愿意某一些人到他那儿拷贝资料，当然也可能不愿意让另外一些人到他那儿拷贝资料，这与我们JSOI宣扬的团队合作精神格格不入！！！</p>
+<p>现在假设总共有N个营员（2&lt;=N&lt;=200），每个营员的编号为1~N。LHC给每个人发了一张调查表，让每个营员填上自己愿意让哪些人到他那儿拷贝资料。当然，如果A愿意把资料拷贝给B，而B又愿意把资料拷贝给C，则一旦A获得了资料，则B，C都会获得资料。</p>
+<p>现在，请你编写一个程序，根据回收上来的调查表，帮助LHC计算出组委会至少要刻录多少张光盘，才能保证所有营员回去后都能得到夏令营资料？</p>
+<p><strong>输入格式</strong></p>
+<p>先是一个数N，接下来的N行，分别表示各个营员愿意把自己获得的资料拷贝给其他哪些营员。即输入数据的第i+1行表示第i个营员愿意把资料拷贝给那些营员的编号，以一个0结束。如果一个营员不愿意拷贝资料给任何人，则相应的行只有1个0，一行中的若干数之间用一个空格隔开。</p>
+<p><strong>输出格式</strong></p>
+<p>一个正整数，表示最少要刻录的光盘数。</p>
+<p><strong>题目分析</strong></p>
+<p>对于单项并查集，我们只需要记录下这个节点有没有直系父亲即可</p>
+<pre><code class="lang-cpp">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstring&gt;
+using namespace std;
+const int N=210;
+int p[N];
+bool d[N];
+int n;
+int find(int x)
+{
+    if(x!=p[x]) p[x]=find(p[x]);
+    return p[x];
+}
+int main()
+{
+    int n;
+    cin&gt;&gt;n;
+    for(int i=1;i&lt;=n;i++) p[i]=i;
+    for(int i=1;i&lt;=n;i++)
+    {
+        int m,pi=find(i);
+        while(cin&gt;&gt;m,m) 
+        {
+            p[find(m)]=pi;
+            d[m]=1;//有直系父亲
+        }
+    }
+    int res=0;
+    for(int i=1;i&lt;=n;i++)//祖宗节点或者没有直系父亲的点
+        if(p[i]==i||d[i]==0) res++;
+    cout&lt;&lt;res&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<h4 id="5-带权并查集——d-i-到祖宗节点的距离"><a href="#5-带权并查集——d-i-到祖宗节点的距离" class="headerlink" title="5.带权并查集——d[i]到祖宗节点的距离"></a>5.带权并查集——<code>d[i]到祖宗节点的距离</code></h4><pre><code>int find(int x)
+{
+    if(x!=p[x])
+    {
+        int root=find(p[x]);
+        d[x]+=d[p[x]];
+        p[x]=root;
+    }
+    return p[x];
+}
+</code></pre><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>并查集删除、单向并查集，并查集维护多种关系（①祖宗节点的距离来确定关系②拓展域维护多种关系）。记录下来方便复习。</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏
+            <div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="/img/custom/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="/img/custom/donate/WeChanQR.jpg"></li>
+              </ul>
             </div>
           </div>
         </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
       </article>
-    </div>
-  </div>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2020/05/12/HDU二维斜率优化/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://pic1.zhimg.com/v2-24246c33b317f327fff045ac7abe9a27_hd.jpeg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://pic1.zhimg.com/v2-24246c33b317f327fff045ac7abe9a27_hd.jpeg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                HDU二维斜率优化</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <a href="hojun.cn" class="profile gravatar"><img src="https://cdn.acwing.com/media/user/profile/photo/31999_lg_cdcab6fa66.jpg" itemprop="image" alt="uptracer" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="hojun.cn" itemprop="url" rel="author">uptracer</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i>飞蛾扑火时一定是极快乐幸福的</p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+
 
     </div>    
     <div class="ins-search">
